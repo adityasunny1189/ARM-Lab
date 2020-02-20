@@ -54,29 +54,63 @@
 
 
 ;TO FIND RES = (A + B * 2) + C
+;	AREA RESET, CODE, READONLY
+;	LDR R0, =a
+;	LDR R1, [R0]
+;	LDR R0, =b
+;	LDR R2, [R0]
+;	LDR R0, =c
+;	LDR R3, [R0]
+;	MOV R4, #02
+;	MUL R5, R2, R4
+;	ADD R5, R1, R5
+;	ADD R5, R3, R5
+;	LDR R0, =R
+;	STR R5, [R0]
+;LP	B LP
+;	AREA MYDATA, DATA, READWRITE
+;a	DCD 0
+;b	DCD 0
+;c	DCD 0
+;R	DCD 0
+;	END
+
+
+;PROGRAM TO FIND FACTORIAL OF A NUMBER
 	AREA RESET, CODE, READONLY
-	LDR R0, =a
+	LDR R0, =N
 	LDR R1, [R0]
-	LDR R0, =b
-	LDR R2, [R0]
-	LDR R0, =c
-	LDR R3, [R0]
-	MOV R4, #02
-	MUL R5, R2, R4
-	ADD R5, R1, R5
-	ADD R5, R3, R5
-	LDR R0, =R
-	STR R5, [R0]
-LP	B LP
+	BL FACTSUB
+	LDR R0, =FACT
+	STR R3, [R0]
+LP	B	LP
+
+FACTSUB
+	MOV R3, #1
+LOOP MOV R2, R1
+	CMP R2, #1
+	BEQ ENDSUB
+	MUL R3, R1, R3
+	SUB R1, R1, #1
+	B LOOP
+	
+ENDSUB BX R14
+	
 	AREA MYDATA, DATA, READWRITE
-a	DCD 0
-b	DCD 0
-c	DCD 0
-R	DCD 0
+N	DCD 0
+FACT DCD 0
 	END
-
-
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 
